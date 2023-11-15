@@ -4,18 +4,18 @@ A training exercise to build a Blazor application for Viewing and Creating Blog 
 
 ****
 
-[![Issues Open](https://img.shields.io/github/issues/mpaulosky/BlazorBlogApp.svg?style=flatsquare&logo=github&label=Open%20Issues)](https://github.com/mpaulosky/BlazorBlogApp/issues)
-![GitHub closed issues](https://img.shields.io/github/issues-closed/mpaulosky/BlazorBlogApp?logo=github)
-![GitHub](https://img.shields.io/github/license/mpaulosky/BlazorBlogApp?logo=github)
+[![Issues Open](https://img.shields.io/github/issues/mpaulosky/mpaulosky_BlogApp.svg?style=flatsquare&logo=github&label=Open%20Issues)](https://github.com/mpaulosky/mpaulosky_BlogApp/issues)
+![GitHub closed issues](https://img.shields.io/github/issues-closed/mpaulosky/mpaulosky_BlogApp?logo=github)
+![GitHub](https://img.shields.io/github/license/mpaulosky/mpaulosky_BlogApp?logo=github)
 
-![GitHub pull requests](https://img.shields.io/github/issues-pr/mpaulosky/BlazorBlogApp?label=pull%20requests%20main&logo=github)
-![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed/mpaulosky/BlazorBlogApp?logo=github)
-![GitHub last commit (branch)](https://img.shields.io/github/last-commit/mpaulosky/BlazorBlogApp/main?label=last%20commit%20main&logo=github)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/mpaulosky/mpaulosky_BlogApp?label=pull%20requests%20main&logo=github)
+![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed/mpaulosky/mpaulosky_BlogApp?logo=github)
+![GitHub last commit (branch)](https://img.shields.io/github/last-commit/mpaulosky/mpaulosky_BlogApp/main?label=last%20commit%20main&logo=github)
 
-![GitHub Workflow Status (with branch)](https://img.shields.io/github/actions/workflow/status/mpaulosky/BlazorBlogApp/dotnet.yml?branch=main&label=Build%20%26%20Test%20main&logo=github)
+![GitHub Workflow Status (with branch)](https://img.shields.io/github/actions/workflow/status/mpaulosky/mpaulosky_BlogApp/dotnet.yml?branch=main&label=Build%20%26%20Test%20main&logo=github)
 
-[![codecov](https://codecov.io/gh/mpaulosky/BlazorBlogApp/branch/main/graph/badge.svg)](https://codecov.io/gh/mpaulosky/BlazorBlogApp)
-[![CodeQL main](https://github.com/mpaulosky/BlazorBlogApp/actions/workflows/github-code-scanning/codeql/badge.svg?branch=main)](https://github.com/mpaulosky/BlazorBlogApp/actions/workflows/github-code-scanning/codeql?branch=main)
+[![codecov](https://codecov.io/gh/mpaulosky/mpaulosky_BlogApp/branch/main/graph/badge.svg)](https://codecov.io/gh/mpaulosky/mpaulosky_BlogApp)
+[![CodeQL main](https://github.com/mpaulosky/mpaulosky_BlogApp/actions/workflows/github-code-scanning/codeql/badge.svg?branch=main)](https://github.com/mpaulosky/mpaulosky_BlogApp/actions/workflows/github-code-scanning/codeql?branch=main)
 
 ****
 
@@ -31,13 +31,14 @@ Check out the [contributing page](./CONTRIBUTING.md) to see the best places to l
 
 ## Software References
 
-* .NET 7
+* .NET 8
 * C#
 * HTML
-* Bootstrap CSS
-* Blazor Webassymbly
-* SQLite
-* Radzen Blazor Components
+* SASS
+* Blazor Server
+* SQL Server
+* Entity Framework Core
+* MongoDB
 
 ## Code of conduct
 
@@ -47,8 +48,3 @@ See the [CODE-OF-CONDUCT](./CODE_OF_CONDUCT.md) document.
 
 References:
 
-[Patrick God Blazor WebAssembly Blog Series](https://www.youtube.com/playlist?list=PLF1jhYUTnHo5XFX9lgS0YsNSDJHpYnRxK)
-
-[John Hilton Build a simple markdown editor](https://jonhilton.net/blazor-markdown-editor/#:~:text=Here%E2%80%99s%20how%20I%E2%80%99d%20approach%20building%20something%20like%20this,markdown%20to%20HTML%20Render%20the%20HTML%20on%20screen)
-
-[Radzen Blazor Components](https://blazor.radzen.com/get-started)
