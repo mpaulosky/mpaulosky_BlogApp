@@ -6,15 +6,15 @@ The following is a set of guidelines for contributing to the project. These are 
 changed in the future. Please submit your suggestions with a pull-request to this document.
 
 - [Contributing to this Project](#contributing-to-issue-tracker)
-	- [Code of Conduct](#code-of-conduct)
-		- [What should I know before I get started](#what-should-i-know-before-i-get-started)
-			- [Project Folder Structure](#project-folder-structure)
-			- [Design Decisions](#design-decisions)
-			- [How can I contribute](#how-can-i-contribute)
-			- [Create an Issue](#create-an-issue)
-			- [Respond to an Issue](#respond-to-an-issue)
-			- [Write code](#write-code)
-			- [Write documentation](#write-documentation)
+  - [Code of Conduct](#code-of-conduct)
+    - [What should I know before I get started](#what-should-i-know-before-i-get-started)
+      - [Project Folder Structure](#project-folder-structure)
+      - [Design Decisions](#design-decisions)
+      - [How can I contribute](#how-can-i-contribute)
+      - [Create an Issue](#create-an-issue)
+      - [Respond to an Issue](#respond-to-an-issue)
+      - [Write code](#write-code)
+      - [Write documentation](#write-documentation)
 
 ## Code of Conduct
 
@@ -33,20 +33,18 @@ encourage you to develop with these other environments, because we would like to
 those tools as well. The folders are configured as follows:
 
 ```bash
-/documents                              -- Documentation
-/src                                    -- Source
-  Client                                -- Blazor WASM  
-  Server                                -- API
-  Shared                                -- Library
-  tests                                 -- Unit and Integration tests
-	Integration.Tests                   -- Integration tests
-	Server.Unit.Tests                   -- Unit tests
-	Shared.Unit.Tests                   -- Unit tests
-	TestHelpers                         -- Mocked data helpers
+/documents                            -- Documentation
+/src                                  -- Source
+  BlazorBlogs                         -- Blazor Server
+  BlazorBlogs.Client                  -- Blazor WASM  
+  BlazorBlogs.Tests.Integration       -- Integration tests
+  BlazorBlogs.Tests.Unit              -- Unit tests
+  BlazorBlogs.Client.Tests.Unit       -- Unit tests
+  TestHelpers                         -- Mocked data helpers
 ```
 
 All official versions of the project are built and delivered with GitHub Actions and linked in the main README.md
-and [releases tab in GitHub](https://github.com/mpaulosky/BlazorBlogApp/releases).
+and [releases tab in GitHub](https://github.com/mpaulosky/mpaulosky_BlogApp/releases).
 
 ### Design Decisions
 
@@ -55,9 +53,10 @@ lead, [Matthew Paulosky](mailto:matthew.paulosky@outlook.com). The following pro
 decisions:
 
 1. Use Blazor for the UI.
-1. Use DotNetCore API for managing data access.
-1. Use SQL for data and identity storage.
-1. Use EF Core to access the data.
+1. Use SQL for Identity storage.
+1. Use MongoDB for blog data storage.
+1. Use EF to access the data.
+1. Use SASS for styling.
 
 ### How can I contribute
 
@@ -71,7 +70,7 @@ This means one of several types of contributions:
 
 ### Create an Issue
 
-Create a [New Issue Here](https://github.com/mpaulosky/BlazorBlogApp/issues).
+Create a [New Issue Here](https://github.com/mpaulosky/mpaulosky_BlogApp/issues).
 
 1. If you are reporting a `Bug` that you have found. Be sure to add the `Bug` label so that we can triage and track it.
 1. If you are reporting an `Enhancement` that you think would improve the project. Be sure to add the `Enhancement`
@@ -79,7 +78,7 @@ Create a [New Issue Here](https://github.com/mpaulosky/BlazorBlogApp/issues).
 
 ### Respond to an Issue
 
-[Fork the Repository to your GitHub account](https://github.com/mpaulosky/BlazorBlogApp/fork).
+[Fork the Repository to your GitHub account](https://github.com/mpaulosky/mpaulosky_BlogApp/fork).
 
 1. Create a new Branch from the develop branch with a reference to the existing Issue number.
 1. Work on the issue.

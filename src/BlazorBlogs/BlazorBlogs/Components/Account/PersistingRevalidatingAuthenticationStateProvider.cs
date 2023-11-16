@@ -1,9 +1,16 @@
+// ============================================
+// Copyright (c) 2023. All rights reserved.
+// File Name :     PersistingRevalidatingAuthenticationStateProvider.cs
+// Company :       mpaulosky
+// Author :        Matthew Paulosky
+// Solution Name : mpaulosky_BlogApp
+// Project Name :  BlazorBlogs
+// =============================================
+
 using System.Diagnostics;
 using System.Security.Claims;
-
 using BlazorBlogs.Client;
 using BlazorBlogs.Data;
-
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Server;
@@ -12,46 +19,48 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 
 namespace BlazorBlogs.Components.Account;
-// This is a server-side AuthenticationStateProvider that revalidates the security stamp for the connected user
+
+// This is a server-side AuthenticationStateProvider that re-validates the security stamp for the connected user
 // every 30 minutes an interactive circuit is connected. It also uses PersistentComponentState to flow the
 // authentication state to the client which is then fixed for the lifetime of the WebAssembly application.
 internal sealed class PersistingRevalidatingAuthenticationStateProvider : RevalidatingServerAuthenticationStateProvider
 {
-	private readonly IServiceScopeFactory scopeFactory;
-	private readonly PersistentComponentState state;
-	private readonly IdentityOptions options;
+	private readonly IServiceScopeFactory _scopeFactory;
+	private readonly PersistentComponentState _state;
+	private readonly IdentityOptions _options;
 
-	private readonly PersistingComponentStateSubscription subscription;
+	private readonly PersistingComponentStateSubscription _subscription;
 
-	private Task<AuthenticationState>? authenticationStateTask;
+	private Task<AuthenticationState>? _authenticationStateTask;
 
 	public PersistingRevalidatingAuthenticationStateProvider(
-			ILoggerFactory loggerFactory,
-			IServiceScopeFactory serviceScopeFactory,
-			PersistentComponentState persistentComponentState,
-			IOptions<IdentityOptions> optionsAccessor)
-			: base(loggerFactory)
+		ILoggerFactory loggerFactory,
+		IServiceScopeFactory serviceScopeFactory,
+		PersistentComponentState persistentComponentState,
+		IOptions<IdentityOptions> optionsAccessor)
+		: base(loggerFactory)
 	{
-		scopeFactory = serviceScopeFactory;
-		state = persistentComponentState;
-		options = optionsAccessor.Value;
+		_scopeFactory = serviceScopeFactory;
+		_state = persistentComponentState;
+		_options = optionsAccessor.Value;
 
 		AuthenticationStateChanged += OnAuthenticationStateChanged;
-		subscription = state.RegisterOnPersisting(OnPersistingAsync, RenderMode.InteractiveWebAssembly);
+		_subscription = _state.RegisterOnPersisting(OnPersistingAsync, RenderMode.InteractiveWebAssembly);
 	}
 
 	protected override TimeSpan RevalidationInterval => TimeSpan.FromMinutes(30);
 
 	protected override async Task<bool> ValidateAuthenticationStateAsync(
-			AuthenticationState authenticationState, CancellationToken cancellationToken)
+		AuthenticationState authenticationState, CancellationToken cancellationToken)
 	{
 		// Get the user manager from a new scope to ensure it fetches fresh data
-		await using var scope = scopeFactory.CreateAsyncScope();
+		await using var scope = _scopeFactory.CreateAsyncScope();
 		var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 		return await ValidateSecurityStampAsync(userManager, authenticationState.User);
 	}
 
-	private async Task<bool> ValidateSecurityStampAsync(UserManager<ApplicationUser> userManager, ClaimsPrincipal principal)
+	private async Task<bool> ValidateSecurityStampAsync(UserManager<ApplicationUser> userManager,
+		ClaimsPrincipal principal)
 	{
 		var user = await userManager.GetUserAsync(principal);
 		if (user is null)
@@ -64,7 +73,7 @@ internal sealed class PersistingRevalidatingAuthenticationStateProvider : Revali
 		}
 		else
 		{
-			var principalStamp = principal.FindFirstValue(options.ClaimsIdentity.SecurityStampClaimType);
+			var principalStamp = principal.FindFirstValue(_options.ClaimsIdentity.SecurityStampClaimType);
 			var userStamp = await userManager.GetSecurityStampAsync(user);
 			return principalStamp == userStamp;
 		}
@@ -72,27 +81,27 @@ internal sealed class PersistingRevalidatingAuthenticationStateProvider : Revali
 
 	private void OnAuthenticationStateChanged(Task<AuthenticationState> task)
 	{
-		authenticationStateTask = task;
+		_authenticationStateTask = task;
 	}
 
 	private async Task OnPersistingAsync()
 	{
-		if (authenticationStateTask is null)
+		if (_authenticationStateTask is null)
 		{
 			throw new UnreachableException($"Authentication state not set in {nameof(OnPersistingAsync)}().");
 		}
 
-		var authenticationState = await authenticationStateTask;
+		var authenticationState = await _authenticationStateTask;
 		var principal = authenticationState.User;
 
 		if (principal.Identity?.IsAuthenticated == true)
 		{
-			var userId = principal.FindFirst(options.ClaimsIdentity.UserIdClaimType)?.Value;
-			var email = principal.FindFirst(options.ClaimsIdentity.EmailClaimType)?.Value;
+			var userId = principal.FindFirst(_options.ClaimsIdentity.UserIdClaimType)?.Value;
+			var email = principal.FindFirst(_options.ClaimsIdentity.EmailClaimType)?.Value;
 
 			if (userId != null && email != null)
 			{
-				state.PersistAsJson(nameof(UserInfo), new UserInfo
+				_state.PersistAsJson(nameof(UserInfo), new UserInfo
 				{
 					UserId = userId,
 					Email = email,
@@ -103,7 +112,7 @@ internal sealed class PersistingRevalidatingAuthenticationStateProvider : Revali
 
 	protected override void Dispose(bool disposing)
 	{
-		subscription.Dispose();
+		_subscription.Dispose();
 		AuthenticationStateChanged -= OnAuthenticationStateChanged;
 		base.Dispose(disposing);
 	}
