@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
 
-namespace Microsoft.AspNetCore.Routing;
+namespace BlazorBlogs.Components.Account;
 internal static class IdentityComponentsEndpointRouteBuilderExtensions
 {
 	// These endpoints are required by the Identity Razor components defined in the /Components/Account/Pages directory of this project.
