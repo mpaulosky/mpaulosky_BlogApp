@@ -6,40 +6,77 @@ name: Build and Test .NET projects
 on:
   push:
     branches: ["main"]
-    paths: ["src/**"]
   pull_request:
     branches: ["main"]
     types: [opened, synchronize, reopened, closed]
-    paths: ["src/**"]
   workflow_dispatch:
-    branches: ["main"]
+    inputs:
+      reason:
+        description: "The reason for running the workflow"
+        required: true
+        default: "Manual run"
 
 jobs:
   build:
     if: github.event_name == 'workflow_dispatch' || github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./src
+    name: Build-and-Test=${{matrix.os}}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ ubuntu-latest ]
+
     steps:
       - uses: actions/checkout@v3
+      - name: Fetch all history for all tags and branches
+        run: |
+          git fetch --prune --unshallow
+
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
           global-json-file: ./global.json
+
       - name: Restore dependencies
         run: dotnet restore
+
       - name: Build
         run: dotnet build --no-restore
+
       - name: Unit Tests
-        run: dotnet test --no-build --verbosity normal
+        run: dotnet test --no-build --verbosity normal --settings runsettings.xml
         working-directory: ./src/BlazorBlogs.Tests.Unit
+
       - name: BUnit Tests
-        run: dotnet test --no-build --verbosity normal
+        run: dotnet test --no-build --verbosity normal --settings runsettings.xml
         working-directory: ./src/BlazorBlogs.Tests.BUnit
+
       - name: Integration Tests
-        run: dotnet test --no-build --verbosity normal
+        run: dotnet test --no-build --verbosity normal --settings runsettings.xml
         working-directory: ./src/BlazorBlogs.Tests.Integration
+
+      - name: Install GitVersion
+        uses: gittools/actions/gitversion/setup@v0.10.2
+        with:
+          versionSpec: "5.x"
+
+      - name: Use GitVersion
+        id: gitversion # step id used as reference for output values
+        uses: gittools/actions/gitversion/execute@v0.10.2
+      - run: |
+          echo "FullSemVer: ${{ steps.gitversion.outputs.fullSemVer }}"
+          
+      - name: Codecov
+        uses: codecov/codecov-action@v3.1.4
+
+      - name: Upload dotnet test results
+        uses: actions/upload-artifact@v3
+        with:
+          name: BlazorBlogs-test-results
+          path: TestResults
+
+        # Use always() to always run this step to
+        # publish test results when there are test failures
+        if: ${{ always() }}
 
   playwright:
     if: github.event_name == 'workflow_dispatch' || github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
