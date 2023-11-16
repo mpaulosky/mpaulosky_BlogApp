@@ -44,15 +44,6 @@ jobs:
 
       - name: Unit Tests
         run: dotnet test --no-build --verbosity normal --settings runsettings.xml
-        working-directory: ./src/BlazorBlogs.Tests.Unit
-
-      - name: BUnit Tests
-        run: dotnet test --no-build --verbosity normal --settings runsettings.xml
-        working-directory: ./src/BlazorBlogs.Tests.BUnit
-
-      - name: Integration Tests
-        run: dotnet test --no-build --verbosity normal --settings runsettings.xml
-        working-directory: ./src/BlazorBlogs.Tests.Integration
 
       - name: Install GitVersion
         uses: gittools/actions/gitversion/setup@v0.10.2
@@ -77,26 +68,3 @@ jobs:
         # Use always() to always run this step to
         # publish test results when there are test failures
         if: ${{ always() }}
-
-  playwright:
-    if: github.event_name == 'workflow_dispatch' || github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
-    name: "Playwright Tests"
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./src/BlazorBlogs.Tests.Web
-    timeout-minutes: 10
-    container:
-      image: mcr.microsoft.com/playwright/dotnet:v1.37.1-jammy
-      options: --ipc=host
-    steps:
-      - uses: actions/checkout@v3
-      - name: Setup dotnet
-        uses: actions/setup-dotnet@v3
-        with:
-          global-json-file: ./global.json
-      - run: dotnet build
-      - name: Execute Playwright tests
-        env:
-          TestHostStartDelay: 1000
-        run: dotnet test --no-build
