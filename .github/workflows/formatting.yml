@@ -1,7 +1,7 @@
 name: Code formatting
 on:
   push:
-    paths: ["src/**.cs", "src/**.js", "src/**.css"]
+    paths: ["src/**.cs", "src/**.js", "src/**.css", "src/**.razor", "src/**.csproj"]
 permissions:
   contents: write
 
@@ -19,7 +19,7 @@ jobs:
         run: |
           {
             echo 'files<<EOF'
-            git diff origin/main...HEAD --name-only --diff-filter=d -- "*.css" "*.js" "*.cs"
+            git diff origin/main...HEAD --name-only --diff-filter=d -- "*.css" "*.js" "*.cs" "*.razor" "*.csproj"
             echo EOF
           } >> "$GITHUB_OUTPUT"
 
@@ -44,7 +44,7 @@ jobs:
         if: steps.changed_cs.outputs.files != ''
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: 8.0.x
+          global-json-file: ./global.json
       - name: Run dotnet format
         if: steps.changed_cs.outputs.files != ''
         id: dotnet-format
