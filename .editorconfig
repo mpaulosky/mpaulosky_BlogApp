@@ -8,16 +8,58 @@ indent_style = space
 [*.cs]
 indent_style = tab
 
-# Html, cshtml, razor
-[*.{html,cshtml,razor}]
+# Html
+[*.html]
 indent_style = tab
-end_of_line = crlf
+end_of_line = lf
+insert_final_newline = false
+
+# cshtml
+[*.cshtml]
+indent_style = tab
+end_of_line = lf
+insert_final_newline = false
+
+# razor
+[*.razor]
+indent_style = tab
+end_of_line = lf
+insert_final_newline = false
+
+# Xml files
+[*.csproj]
+indent_style = tab
+end_of_line = lf
 insert_final_newline = false
 
 # Xml files
 [*.{csproj,props,targets,config,xml}]
 indent_style = tab
-end_of_line = crlf
+end_of_line = lf
+insert_final_newline = false
+
+# Xml files
+[*.props}]
+indent_style = tab
+end_of_line = lf
+insert_final_newline = false
+
+# Xml files
+[*.targets]
+indent_style = tab
+end_of_line = lf
+insert_final_newline = false
+
+# Xml files
+[*.config]
+indent_style = tab
+end_of_line = lf
+insert_final_newline = false
+
+# Xml files
+[*.xml]
+indent_style = tab
+end_of_line = lf
 insert_final_newline = false
 
 #### Core EditorConfig Options ####
@@ -27,7 +69,7 @@ indent_size = 2
 tab_width = 2
 
 # New line preferences
-end_of_line = crlf
+end_of_line = lf
 insert_final_newline = false
 
 #### .NET Coding Conventions ####
@@ -374,7 +416,4 @@ dotnet_naming_style.s_camelcase.required_prefix = s_
 dotnet_naming_style.s_camelcase.required_suffix = 
 dotnet_naming_style.s_camelcase.word_separator = 
 dotnet_naming_style.s_camelcase.capitalization = camel_case
-tab_width = 4
-indent_size = 4
-end_of_line = lf
 
