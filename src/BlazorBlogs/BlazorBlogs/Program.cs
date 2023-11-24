@@ -81,4 +81,9 @@ app.Run();
 // labels: enhancement, feature
 // assignees: mpaulosky
 
+// TODO: Feature: Add a Create Blog Post page.
+// Add a page to create a new blog post. In the BlazorBlogs project, add a new page called CreateBlogPost.razor. This page should have a form with the following fields:
+// labels: enhancement, feature
+// assignees: mpaulosky
+
 public class AssemblyClassLocator;
