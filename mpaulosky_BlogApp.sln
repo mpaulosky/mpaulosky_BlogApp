@@ -10,7 +10,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0. Solution Items", "0. Sol
 		CODE_OF_CONDUCT.md = CODE_OF_CONDUCT.md
 		CONTRIBUTING.md = CONTRIBUTING.md
 		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
-		.github\workflows\formatting.yml = .github\workflows\formatting.yml
 		global.json = global.json
 		LICENSE.txt = LICENSE.txt
 		README.md = README.md
@@ -28,11 +27,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. Tests", "2. Tests", "{7B
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorBlogs.Tests.Unit", "src\BlazorBlogs.Tests.Unit\BlazorBlogs.Tests.Unit.csproj", "{503110CF-7B0A-4960-BC95-693AE0B11987}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorBlogs.Tests.BUnit", "src\BlazorBlogs.Tests.BUnit\BlazorBlogs.Tests.BUnit.csproj", "{B490BB60-2061-4749-A48A-6F9CA678C41E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorBlogs.Tests.BUnit", "src\BlazorBlogs.Tests.BUnit\BlazorBlogs.Tests.BUnit.csproj", "{B490BB60-2061-4749-A48A-6F9CA678C41E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorBlogs.Tests.Integration", "src\BlazorBlogs.Tests.Integration\BlazorBlogs.Tests.Integration.csproj", "{F424A41C-B895-4FBB-A014-97A5B72881B8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorBlogs.Tests.Integration", "src\BlazorBlogs.Tests.Integration\BlazorBlogs.Tests.Integration.csproj", "{F424A41C-B895-4FBB-A014-97A5B72881B8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorBlogs.Tests.Web", "src\BlazorBlogs.Tests.Web\BlazorBlogs.Tests.Web.csproj", "{C9098291-1A7D-46C6-B843-68141DC9F3C8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorBlogs.Tests.Web", "src\BlazorBlogs.Tests.Web\BlazorBlogs.Tests.Web.csproj", "{C9098291-1A7D-46C6-B843-68141DC9F3C8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestingSupport.Library", "src\TestingSupport.Library\TestingSupport.Library.csproj", "{4E0A5590-EA79-42E1-A53E-FAA684746BBC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -64,6 +65,10 @@ Global
 		{C9098291-1A7D-46C6-B843-68141DC9F3C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C9098291-1A7D-46C6-B843-68141DC9F3C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C9098291-1A7D-46C6-B843-68141DC9F3C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E0A5590-EA79-42E1-A53E-FAA684746BBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E0A5590-EA79-42E1-A53E-FAA684746BBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E0A5590-EA79-42E1-A53E-FAA684746BBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E0A5590-EA79-42E1-A53E-FAA684746BBC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -75,6 +80,7 @@ Global
 		{B490BB60-2061-4749-A48A-6F9CA678C41E} = {7B6DC022-F054-4429-BDB3-9424AE049348}
 		{F424A41C-B895-4FBB-A014-97A5B72881B8} = {7B6DC022-F054-4429-BDB3-9424AE049348}
 		{C9098291-1A7D-46C6-B843-68141DC9F3C8} = {7B6DC022-F054-4429-BDB3-9424AE049348}
+		{4E0A5590-EA79-42E1-A53E-FAA684746BBC} = {7B6DC022-F054-4429-BDB3-9424AE049348}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5C35FF32-67F6-4C09-8D7B-E4D3326FDF36}

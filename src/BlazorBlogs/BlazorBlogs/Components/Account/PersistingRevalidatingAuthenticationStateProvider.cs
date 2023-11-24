@@ -11,7 +11,7 @@ using System.Diagnostics;
 using System.Security.Claims;
 
 using BlazorBlogs.Client;
-using BlazorBlogs.Data;
+using BlazorBlogs.Data.Models;
 
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;

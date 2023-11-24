@@ -1,4 +1,4 @@
-using BlazorBlogs.Data;
+using BlazorBlogs.Data.Models;
 
 using Microsoft.AspNetCore.Identity;
 

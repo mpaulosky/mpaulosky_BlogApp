@@ -1,6 +1,10 @@
 global using System.Text.RegularExpressions;
 global using System.Threading.Tasks;
-
-global using Microsoft.Playwright.NUnit;
-
-global using NUnit.Framework;
+global using System.Diagnostics.CodeAnalysis;
+global using C3D.Extensions.Playwright.AspNetCore.Xunit;
+global using FluentAssertions;
+global using Testcontainers.MongoDb;
+global using Xunit.Sdk;
+global using Microsoft.Playwright;
+global using Xunit;
+global using Xunit.Abstractions;
