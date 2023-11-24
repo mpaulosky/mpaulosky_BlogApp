@@ -86,4 +86,9 @@ app.Run();
 // labels: enhancement, feature
 // assignees: mpaulosky
 
+// FEATURE: Feature: Add a Edit Blog Post page.
+// Add a page to edit a blog post. In the BlazorBlogs project, add a new page called Edit.razor.
+// labels: enhancement, feature
+// assignees: mpaulosky
+
 public class AssemblyClassLocator;
