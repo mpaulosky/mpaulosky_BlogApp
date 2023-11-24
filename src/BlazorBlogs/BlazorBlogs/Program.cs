@@ -1,11 +1,19 @@
+// ============================================
+// Copyright (c) 2023. All rights reserved.
+// File Name :     Program.cs
+// Company :       mpaulosky
+// Author :        Matthew Paulosky
+// Solution Name : mpaulosky_BlogApp
+// Project Name :  BlazorBlogs
+// =============================================
+
 using BlazorBlogs.Client.Pages;
 using BlazorBlogs.Components;
 using BlazorBlogs.Components.Account;
-using BlazorBlogs.Data;
+using BlazorBlogs.Registrations;
 
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,9 +34,8 @@ builder.Services.AddAuthentication(options =>
 		})
 		.AddIdentityCookies();
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-		options.UseSqlServer(connectionString));
+builder.RegisterDbContexts();
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
@@ -67,4 +74,11 @@ app.MapRazorComponents<App>()
 app.MapAdditionalIdentityEndpoints();
 
 app.Run();
+
 // TODO: Add code here
+
+// TODO: Feature: Add SASS support to the BlazorBlogs project.
+// labels: enhancement, feature
+// assignees: mpaulosky
+
+public class AssemblyClassLocator;
