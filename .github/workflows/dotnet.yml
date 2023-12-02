@@ -18,9 +18,6 @@ jobs:
   build:
     if: github.event_name == 'workflow_dispatch' || github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./src
     steps:
       - uses: actions/checkout@v3
       - name: Setup .NET
@@ -33,15 +30,15 @@ jobs:
         run: dotnet build --no-restore
 
       - name: Unit Tests
-        run: dotnet test --no-build --verbosity normal --settings runsettings.xml
+        run: dotnet test --no-build --verbosity normal --settings ./runsettings.xml
         working-directory: ./src/BlazorBlogs.Testa.Unit
 
       - name: Integration Tests
-        run: dotnet test --no-build --verbosity normal --settings runsettings.xml
+        run: dotnet test --no-build --verbosity normal --settings ./runsettings.xml
         working-directory: ./src/BlazorBlogs.Testa.Integration
 
       - name: BUnit Tests
-        run: dotnet test --no-build --verbosity normal --settings runsettings.xml
+        run: dotnet test --no-build --verbosity normal --settings ./runsettings.xml
         working-directory: ./src/BlazorBlogs.Testa.BUnit
         
       - name: Upload coverage reports to Codecov
@@ -63,9 +60,6 @@ jobs:
     if: github.event_name == 'workflow_dispatch' || github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
     name: "Playwright Tests"
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./src/BlazorBlogs.Tests.Web
     timeout-minutes: 10
     container:
       image: mcr.microsoft.com/playwright/dotnet:v1.37.1-jammy
@@ -77,11 +71,13 @@ jobs:
         with:
           global-json-file: ./global.json
       - run: dotnet build
+  
       - name: Execute Playwright tests
         env:
           TestHostStartDelay: 1000
-        run: dotnet test --no-build --settings runsettings.xml
-        
+        run: dotnet test --no-build --settings ./runsettings.xml
+        working-directory: ./src/BlazorBlogs.Tests.Web
+
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v3
         env: 
