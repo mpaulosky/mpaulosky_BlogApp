@@ -1,12 +1,8 @@
 @page "/Account/Manage/EnableAuthenticator"
-
-@using System.ComponentModel.DataAnnotations
-@using System.Globalization
-@using System.Text
-@using System.Text.Encodings.Web
 @using Microsoft.AspNetCore.Identity
-@using BlazorBlogs.Data;
-@using BlazorBlogs.Data.Models
+@using System.Text.Encodings.Web
+@using System.Text
+@using System.Globalization
 
 @inject UserManager<ApplicationUser> UserManager
 @inject IdentityUserAccessor UserAccessor
@@ -18,11 +14,11 @@
 
 @if (recoveryCodes is not null)
 {
-	<ShowRecoveryCodes RecoveryCodes="recoveryCodes.ToArray()" StatusMessage="@message" />
+	<ShowRecoveryCodes RecoveryCodes="recoveryCodes.ToArray()" StatusMessage="@message"/>
 }
 else
 {
-	<StatusMessage Message="@message" />
+	<StatusMessage Message="@message"/>
 	<h3>Configure authenticator app</h3>
 	<div>
 		<p>To use an authenticator app go through the following steps:</p>
@@ -51,14 +47,14 @@ else
 				<div class="row">
 					<div class="col-md-6">
 						<EditForm Model="Input" FormName="send-code" OnValidSubmit="OnValidSubmitAsync" method="post">
-							<DataAnnotationsValidator />
+							<DataAnnotationsValidator/>
 							<div class="form-floating mb-3">
-								<InputText @bind-Value="Input.Code" class="form-control" autocomplete="off" placeholder="Please enter the code." />
+								<InputText @bind-Value="Input.Code" class="form-control" autocomplete="off" placeholder="Please enter the code."/>
 								<label for="code" class="control-label form-label">Verification Code</label>
-								<ValidationMessage For="() => Input.Code" class="text-danger" />
+								<ValidationMessage For="() => Input.Code" class="text-danger"/>
 							</div>
 							<button type="submit" class="w-100 btn btn-lg btn-primary">Verify</button>
-							<ValidationSummary class="text-danger" role="alert" />
+							<ValidationSummary class="text-danger" role="alert"/>
 						</EditForm>
 					</div>
 				</div>
@@ -68,7 +64,7 @@ else
 }
 
 @code {
-	private const string AuthenticatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
+		private const string AuthenticatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
 
 	private string? message;
 	private ApplicationUser user = default!;
@@ -80,7 +76,7 @@ else
 	private HttpContext HttpContext { get; set; } = default!;
 
 	[SupplyParameterFromForm]
-	private InputModel Input { get; set; } = new();
+	private InputModel Input { get; } = new();
 
 	protected override async Task OnInitializedAsync()
 	{
@@ -91,11 +87,11 @@ else
 
 	private async Task OnValidSubmitAsync()
 	{
-		// Strip spaces and hyphens
+	// Strip spaces and hyphens
 		var verificationCode = Input.Code.Replace(" ", string.Empty).Replace("-", string.Empty);
 
 		var is2faTokenValid = await UserManager.VerifyTwoFactorTokenAsync(
-				user, UserManager.Options.Tokens.AuthenticatorTokenProvider, verificationCode);
+			user, UserManager.Options.Tokens.AuthenticatorTokenProvider, verificationCode);
 
 		if (!is2faTokenValid)
 		{
@@ -121,7 +117,7 @@ else
 
 	private async ValueTask LoadSharedKeyAndQrCodeUriAsync(ApplicationUser user)
 	{
-		// Load the authenticator key & QR code URI to display on the form
+	// Load the authenticator key & QR code URI to display on the form
 		var unformattedKey = await UserManager.GetAuthenticatorKeyAsync(user);
 		if (string.IsNullOrEmpty(unformattedKey))
 		{
@@ -138,7 +134,7 @@ else
 	private string FormatKey(string unformattedKey)
 	{
 		var result = new StringBuilder();
-		int currentPosition = 0;
+		var currentPosition = 0;
 		while (currentPosition + 4 < unformattedKey.Length)
 		{
 			result.Append(unformattedKey.AsSpan(currentPosition, 4)).Append(' ');
@@ -155,11 +151,11 @@ else
 	private string GenerateQrCodeUri(string email, string unformattedKey)
 	{
 		return string.Format(
-				CultureInfo.InvariantCulture,
-				AuthenticatorUriFormat,
-				UrlEncoder.Encode("Microsoft.AspNetCore.Identity.UI"),
-				UrlEncoder.Encode(email),
-				unformattedKey);
+			CultureInfo.InvariantCulture,
+			AuthenticatorUriFormat,
+			UrlEncoder.Encode("Microsoft.AspNetCore.Identity.UI"),
+			UrlEncoder.Encode(email),
+			unformattedKey);
 	}
 
 	private sealed class InputModel
@@ -170,4 +166,5 @@ else
 		[Display(Name = "Verification Code")]
 		public string Code { get; set; } = "";
 	}
+
 }

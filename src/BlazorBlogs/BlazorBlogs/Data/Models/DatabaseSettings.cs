@@ -1,15 +1,4 @@
-﻿// ============================================
-// Copyright (c) 2023. All rights reserved.
-// File Name :     DatabaseSettings.cs
-// Company :       mpaulosky
-// Author :        Matthew Paulosky
-// Solution Name : mpaulosky_BlogApp
-// Project Name :  BlazorBlogs
-// =============================================
-
-using BlazorBlogs.Contracts;
-
-namespace BlazorBlogs.Data.Models;
+﻿namespace BlazorBlogs.Data.Models;
 
 /// <summary>
 ///   DatabaseSettings class

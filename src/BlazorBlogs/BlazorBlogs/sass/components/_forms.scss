@@ -6,6 +6,7 @@
       display: grid;
     }
   }
+
   &label {
     color: $form-label-color;
     font-family: $form-label-font-family;
@@ -23,6 +24,7 @@
     border-radius: $form-input-border-radius;
   }
 }
+
 ::placeholder {
   color: $form-placeholder-color;
   font-weight: $form-placeholder-font-weight;

@@ -1,5 +1,6 @@
+@using BlazorBlogs.Components.Layout
 @inherits LayoutComponentBase
-@layout BlazorBlogs.Components.Layout.MainLayout
+@layout MainLayout
 @inject NavigationManager NavigationManager
 
 @if (HttpContext is null)
@@ -12,6 +13,7 @@ else
 }
 
 @code {
+
 	[CascadingParameter]
 	private HttpContext? HttpContext { get; set; }
 
@@ -19,10 +21,11 @@ else
 	{
 		if (HttpContext is null)
 		{
-			// If this code runs, we're currently rendering in interactive mode, so there is no HttpContext.
-			// The identity pages need to set cookies, so they require an HttpContext. To achieve this we
-			// must transition back from interactive mode to a server-rendered page.
-			NavigationManager.Refresh(forceReload: true);
+	// If this code runs, we're currently rendering in interactive mode, so there is no HttpContext.
+	// The identity pages need to set cookies, so they require an HttpContext. To achieve this we
+	// must transition back from interactive mode to a server-rendered page.
+			NavigationManager.Refresh(true);
 		}
 	}
+
 }

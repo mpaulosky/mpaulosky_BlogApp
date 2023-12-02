@@ -1,8 +1,5 @@
 @using Microsoft.AspNetCore.Authentication
 @using Microsoft.AspNetCore.Identity
-@using BlazorBlogs.Data;
-@using BlazorBlogs.Data.Models
-
 @inject SignInManager<ApplicationUser> SignInManager
 @inject IdentityRedirectManager RedirectManager
 
@@ -10,7 +7,8 @@
 {
 	<div>
 		<p>
-			There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">
+			There are no external authentication services configured. See this
+			<a href="https://go.microsoft.com/fwlink/?LinkID=532715">
 				article
 				about setting up this ASP.NET application to support logging in via external services
 			</a>.
@@ -21,8 +19,8 @@ else
 {
 	<form class="form-horizontal" action="Account/PerformExternalLogin" method="post">
 		<div>
-			<AntiforgeryToken />
-			<input type="hidden" name="ReturnUrl" value="@ReturnUrl" />
+			<AntiforgeryToken/>
+			<input type="hidden" name="ReturnUrl" value="@ReturnUrl"/>
 			<p>
 				@foreach (var provider in externalLogins)
 				{
@@ -43,4 +41,5 @@ else
 	{
 		externalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).ToArray();
 	}
+
 }

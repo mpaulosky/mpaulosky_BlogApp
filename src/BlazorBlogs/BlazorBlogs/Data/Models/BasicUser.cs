@@ -1,13 +1,4 @@
-﻿// ============================================
-// Copyright (c) 2023. All rights reserved.
-// File Name :     BasicUser.cs
-// Company :       mpaulosky
-// Author :        Matthew Paulosky
-// Solution Name : mpaulosky_BlogApp
-// Project Name :  BlazorBlogs
-// =============================================
-
-namespace BlazorBlogs.Data.Models;
+﻿namespace BlazorBlogs.Data.Models;
 
 /// <summary>
 ///   BasicUser class
@@ -41,7 +32,7 @@ public class BasicUser
 	/// <value>
 	///   The identifier.
 	/// </value>
-	public string Id { get; set; } = string.Empty;
+	public string Id { get; private set; }
 
 	/// <summary>
 	///   Gets or sets the first name.

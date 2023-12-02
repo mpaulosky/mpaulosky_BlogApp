@@ -1,15 +1,4 @@
-﻿// ============================================
-// Copyright (c) 2023. All rights reserved.
-// File Name :     User.cs
-// Company :       mpaulosky
-// Author :        Matthew Paulosky
-// Solution Name : mpaulosky_BlogApp
-// Project Name :  BlazorBlogs
-// =============================================
-
-
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
+﻿using MongoDB.Bson.Serialization.Attributes;
 
 namespace BlazorBlogs.Data.Models;
 
@@ -29,15 +18,6 @@ public class User
 	[BsonElement("_id")]
 	[BsonRepresentation(BsonType.ObjectId)]
 	public string Id { get; set; } = string.Empty;
-
-	/// <summary>
-	///   Gets or sets the object identifier.
-	/// </summary>
-	/// <value>
-	///   The object identifier.
-	/// </value>
-	[BsonElement("object_identifier")]
-	public string ObjectIdentifier { get; set; } = string.Empty;
 
 	/// <summary>
 	///   Gets or sets the first name.
@@ -85,9 +65,8 @@ public class User
 	/// <value>
 	///   <c>true</c> if archived; otherwise, <c>false</c>.
 	/// </value>
-	[BsonElement("archived")]
 	[BsonRepresentation(BsonType.Boolean)]
-	public bool Archived { get; set; }
+	public bool IsArchived { get; set; }
 
 	/// <summary>
 	///   Gets or sets who archived the record.

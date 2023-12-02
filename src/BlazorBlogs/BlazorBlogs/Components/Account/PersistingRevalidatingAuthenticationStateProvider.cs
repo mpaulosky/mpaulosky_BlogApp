@@ -1,17 +1,7 @@
-// ============================================
-// Copyright (c) 2023. All rights reserved.
-// File Name :     PersistingRevalidatingAuthenticationStateProvider.cs
-// Company :       mpaulosky
-// Author :        Matthew Paulosky
-// Solution Name : mpaulosky_BlogApp
-// Project Name :  BlazorBlogs
-// =============================================
-
 using System.Diagnostics;
 using System.Security.Claims;
 
 using BlazorBlogs.Client;
-using BlazorBlogs.Data.Models;
 
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -27,9 +17,9 @@ namespace BlazorBlogs.Components.Account;
 // authentication state to the client which is then fixed for the lifetime of the WebAssembly application.
 internal sealed class PersistingRevalidatingAuthenticationStateProvider : RevalidatingServerAuthenticationStateProvider
 {
+	private readonly IdentityOptions _options;
 	private readonly IServiceScopeFactory _scopeFactory;
 	private readonly PersistentComponentState _state;
-	private readonly IdentityOptions _options;
 
 	private readonly PersistingComponentStateSubscription _subscription;
 
@@ -56,29 +46,28 @@ internal sealed class PersistingRevalidatingAuthenticationStateProvider : Revali
 		AuthenticationState authenticationState, CancellationToken cancellationToken)
 	{
 		// Get the user manager from a new scope to ensure it fetches fresh data
-		await using var scope = _scopeFactory.CreateAsyncScope();
-		var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+		await using AsyncServiceScope scope = _scopeFactory.CreateAsyncScope();
+		UserManager<ApplicationUser> userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 		return await ValidateSecurityStampAsync(userManager, authenticationState.User);
 	}
 
 	private async Task<bool> ValidateSecurityStampAsync(UserManager<ApplicationUser> userManager,
 		ClaimsPrincipal principal)
 	{
-		var user = await userManager.GetUserAsync(principal);
+		ApplicationUser? user = await userManager.GetUserAsync(principal);
 		if (user is null)
 		{
 			return false;
 		}
-		else if (!userManager.SupportsUserSecurityStamp)
+
+		if (!userManager.SupportsUserSecurityStamp)
 		{
 			return true;
 		}
-		else
-		{
-			var principalStamp = principal.FindFirstValue(_options.ClaimsIdentity.SecurityStampClaimType);
-			var userStamp = await userManager.GetSecurityStampAsync(user);
-			return principalStamp == userStamp;
-		}
+
+		string? principalStamp = principal.FindFirstValue(_options.ClaimsIdentity.SecurityStampClaimType);
+		string userStamp = await userManager.GetSecurityStampAsync(user);
+		return principalStamp == userStamp;
 	}
 
 	private void OnAuthenticationStateChanged(Task<AuthenticationState> task)
@@ -93,21 +82,17 @@ internal sealed class PersistingRevalidatingAuthenticationStateProvider : Revali
 			throw new UnreachableException($"Authentication state not set in {nameof(OnPersistingAsync)}().");
 		}
 
-		var authenticationState = await _authenticationStateTask;
-		var principal = authenticationState.User;
+		AuthenticationState authenticationState = await _authenticationStateTask;
+		ClaimsPrincipal principal = authenticationState.User;
 
 		if (principal.Identity?.IsAuthenticated == true)
 		{
-			var userId = principal.FindFirst(_options.ClaimsIdentity.UserIdClaimType)?.Value;
-			var email = principal.FindFirst(_options.ClaimsIdentity.EmailClaimType)?.Value;
+			string? userId = principal.FindFirst(_options.ClaimsIdentity.UserIdClaimType)?.Value;
+			string? email = principal.FindFirst(_options.ClaimsIdentity.EmailClaimType)?.Value;
 
 			if (userId != null && email != null)
 			{
-				_state.PersistAsJson(nameof(UserInfo), new UserInfo
-				{
-					UserId = userId,
-					Email = email,
-				});
+				_state.PersistAsJson(nameof(UserInfo), new UserInfo { UserId = userId, Email = email });
 			}
 		}
 	}

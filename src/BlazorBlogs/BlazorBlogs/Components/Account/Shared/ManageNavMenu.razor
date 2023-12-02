@@ -1,7 +1,4 @@
 @using Microsoft.AspNetCore.Identity
-@using BlazorBlogs.Data;
-@using BlazorBlogs.Data.Models
-
 @inject SignInManager<ApplicationUser> SignInManager
 
 <ul class="nav nav-pills flex-column">
@@ -35,4 +32,5 @@
 	{
 		hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 	}
+
 }

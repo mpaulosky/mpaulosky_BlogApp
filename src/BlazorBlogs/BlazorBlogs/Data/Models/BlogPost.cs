@@ -1,14 +1,4 @@
-﻿// ============================================
-// Copyright (c) 2023. All rights reserved.
-// File Name :     BlogPost.cs
-// Company :       mpaulosky
-// Author :        Matthew Paulosky
-// Solution Name : mpaulosky_BlogApp
-// Project Name :  BlazorBlogs
-// =============================================
-
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
+﻿using MongoDB.Bson.Serialization.Attributes;
 
 namespace BlazorBlogs.Data.Models;
 
@@ -22,6 +12,7 @@ public class BlogPost
 	///   Gets or sets the ID of the blog post.
 	/// </summary>
 	[BsonId]
+	[BsonElement("_id")]
 	[BsonRepresentation(BsonType.ObjectId)]
 	public string Id { get; set; } = string.Empty;
 

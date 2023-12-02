@@ -1,15 +1,4 @@
-﻿// ============================================
-// Copyright (c) 2023. All rights reserved.
-// File Name :     BlogPostDto.cs
-// Company :       mpaulosky
-// Author :        Matthew Paulosky
-// Solution Name : mpaulosky_BlogApp
-// Project Name :  BlazorBlogs
-// =============================================
-
-using System.ComponentModel.DataAnnotations;
-
-namespace BlazorBlogs.Data.Models;
+﻿namespace BlazorBlogs.Data.Models;
 
 public class BlogPostDto
 {
