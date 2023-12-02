@@ -32,7 +32,7 @@ public class BasicUser
 	/// <value>
 	///   The identifier.
 	/// </value>
-	public string Id { get; private set; }
+	public string Id { get; private set; } = string.Empty;
 
 	/// <summary>
 	///   Gets or sets the first name.
