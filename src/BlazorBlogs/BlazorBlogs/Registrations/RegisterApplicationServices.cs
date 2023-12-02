@@ -1,20 +1,21 @@
-﻿namespace BlogService.UI.Registrations;
+﻿namespace BlazorBlogs.Registrations;
 
 /// <summary>
-///   IServiceCollectionExtensions
+/// ServiceCollectionExtensions
 /// </summary>
 public static partial class ServiceCollectionExtensions
 {
 	/// <summary>
 	///   Register DI Services
 	/// </summary>
-	/// <param name="services">IServiceCollection</param>
-	/// <returns>IServiceCollection</returns>
-	public static void RegisterApplicationServices(this IServiceCollection services)
+	/// <param name="builder">WebApplicationBuilder</param>
+	/// <returns>void</returns>
+	public static void RegisterApplicationServices(this WebApplicationBuilder builder)
 	{
-		services.AddRazorPages();
-		services.AddServerSideBlazor().AddMicrosoftIdentityConsentHandler();
-		services.AddMemoryCache();
-		services.AddControllersWithViews().AddMicrosoftIdentityUI();
+		builder.Services.AddRazorComponents()
+			.AddInteractiveServerComponents()
+			.AddInteractiveWebAssemblyComponents();
+
+		builder.Services.AddMemoryCache();
 	}
 }

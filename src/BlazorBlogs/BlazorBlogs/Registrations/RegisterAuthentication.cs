@@ -1,20 +1,31 @@
-﻿namespace BlogService.UI.Registrations;
+﻿using Microsoft.AspNetCore.Components.Authorization;
+
+namespace BlazorBlogs.Registrations;
 
 /// <summary>
-///   IServiceCollectionExtensions
+///   ServiceCollectionExtensions
 /// </summary>
 public static partial class ServiceCollectionExtensions
 {
 	/// <summary>
 	///   Add Authentication Services
 	/// </summary>
-	/// <param name="services">IServiceCollection</param>
-	/// <param name="config">ConfigurationManager</param>
-	/// <returns>IServiceCollection</returns>
-	public static void AddAuthentication(this IServiceCollection services,
-		ConfigurationManager config)
+	/// <param name="builder">WebApplicationBuilder</param>
+	/// <returns>void</returns>
+	public static void AddAuthentication(this WebApplicationBuilder builder)
 	{
-		services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
-			.AddMicrosoftIdentityWebApp(config.GetSection("AzureAdB2C"));
+
+		builder.Services.AddCascadingAuthenticationState();
+		builder.Services.AddScoped<IdentityUserAccessor>();
+		builder.Services.AddScoped<IdentityRedirectManager>();
+		builder.Services.AddScoped<AuthenticationStateProvider, PersistingRevalidatingAuthenticationStateProvider>();
+
+		builder.Services.AddAuthentication(options =>
+		{
+			options.DefaultScheme = IdentityConstants.ApplicationScheme;
+			options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
+		})
+			.AddIdentityCookies();
+
 	}
 }

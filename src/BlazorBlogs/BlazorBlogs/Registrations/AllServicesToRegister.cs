@@ -1,33 +1,32 @@
-﻿using BlogService.UI.Registrations;
-
+﻿
 namespace BlazorBlogs.Registrations;
 
 /// <summary>
-///   RegisterServices class
+/// ServiceCollectionExtensions
 /// </summary>
 [ExcludeFromCodeCoverage]
-public static class AllServicesToRegister
+public static partial class ServiceCollectionExtensions
 {
 	/// <summary>
 	///   Configures the services method.
 	/// </summary>
-	/// <param name="builder">The builder.</param>
-	/// <param name="config">ConfigurationManager</param>
-	public static void ConfigureServices(this WebApplicationBuilder builder, ConfigurationManager config)
+	/// <param name="builder">WebApplicationBuilder</param>
+	public static void ConfigureServices(this WebApplicationBuilder builder)
 	{
+
 		// Add services to the container.
-		builder.Services.RegisterApplicationServices();
+		builder.RegisterApplicationServices();
 
-		builder.Services.AddAuthorizationPolicy();
+		builder.AddAuthentication();
 
-		builder.Services.AddAuthentication(config);
-
-		builder.Services.RegisterConnection(config);
-
-		builder.Services.RegisterDataSources();
+		builder.AddAuthorizationPolicy();
 
 		builder.RegisterApplicationDbContext();
 
-		builder.RegisterMongoDbContext();
+		builder.RegisterDataBaseSettings();
+
+		builder.RegisterDataSources();
+
 	}
+
 }
