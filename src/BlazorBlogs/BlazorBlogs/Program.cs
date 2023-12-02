@@ -54,5 +54,10 @@ app.Run();
 // labels: enhancement, feature
 // assignees: mpaulosky
 
+// BUG: BUG: Fix Build and Test Action.
+// Find and resolve the issue with the Build and Test Action.
+// labels: bug
+// assignees: mpaulosky
+
 [ExcludeFromCodeCoverage]
 public class AssemblyClassLocator;
