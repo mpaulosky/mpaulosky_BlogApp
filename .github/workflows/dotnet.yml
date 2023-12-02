@@ -6,63 +6,91 @@ name: Build and Test .NET projects
 on:
   push:
     branches: ["main"]
+    paths: ["src/**"]
   pull_request:
     branches: ["main"]
     types: [opened, synchronize, reopened, closed]
+    paths: ["src/**"]
   workflow_dispatch:
-    inputs:
-      reason:
-        description: "The reason for running the workflow"
-        required: true
-        default: "Manual run"
+    branches: ["main"]
 
 jobs:
   build:
     if: github.event_name == 'workflow_dispatch' || github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
-    name: Build-and-Test=${{matrix.os}}
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ ubuntu-latest ]
-
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./src
     steps:
-      - uses: actions/checkout@v4
-      - name: Fetch all history for all tags and branches
-        run: |
-          git fetch --prune --unshallow
-
+      - uses: actions/checkout@v3
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
           global-json-file: ./global.json
-
       - name: Restore dependencies
         run: dotnet restore
-
       - name: Build
         run: dotnet build --no-restore
-            
+
       - name: Unit Tests
         run: dotnet test --no-build --verbosity normal --settings runsettings.xml
+        working-directory: ./src/BlazorBlogs.Testa.Unit
 
-      - name: Install GitVersion
-        uses: gittools/actions/gitversion/setup@v0.10.2
-        with:
-          versionSpec: "5.x"
+      - name: Integration Tests
+        run: dotnet test --no-build --verbosity normal --settings runsettings.xml
+        working-directory: ./src/BlazorBlogs.Testa.Integration
 
-      - name: Use GitVersion
-        id: gitversion # step id used as reference for output values
-        uses: gittools/actions/gitversion/execute@v0.10.2
-      - run: |
-          echo "FullSemVer: ${{ steps.gitversion.outputs.fullSemVer }}"
-          
-      - name: Codecov
-        uses: codecov/codecov-action@v3.1.4
-
+      - name: BUnit Tests
+        run: dotnet test --no-build --verbosity normal --settings runsettings.xml
+        working-directory: ./src/BlazorBlogs.Testa.BUnit
+        
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        env: 
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        
       - name: Upload dotnet test results
         uses: actions/upload-artifact@v3
         with:
-          name: BlazorBlogs-test-results
+          name: IssueTracker-test-results
+          path: TestResults
+
+        # Use always() to always run this step to
+        # publish test results when there are test failures
+        if: ${{ always() }}
+
+  playwright:
+    if: github.event_name == 'workflow_dispatch' || github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
+    name: "Playwright Tests"
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./src/BlazorBlogs.Tests.Web
+    timeout-minutes: 10
+    container:
+      image: mcr.microsoft.com/playwright/dotnet:v1.37.1-jammy
+      options: --ipc=host
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v3
+        with:
+          global-json-file: ./global.json
+      - run: dotnet build
+      - name: Execute Playwright tests
+        env:
+          TestHostStartDelay: 1000
+        run: dotnet test --no-build --settings runsettings.xml
+        
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        env: 
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        
+      - name: Upload dotnet test results
+        uses: actions/upload-artifact@v3
+        with:
+          name: IssueTracker-test-results
           path: TestResults
 
         # Use always() to always run this step to
