@@ -33,7 +33,7 @@ jobs:
 
       - name: Integration Tests
         run: dotnet test --no-build --verbosity normal --settings ../../runsettings.xml
-        working-directory: ./src/BlazorBlogs.Testa.Integration
+        working-directory: ./src/BlazorBlogs.Tests.Integration
 
       - name: BUnit Tests
         run: dotnet test --no-build --verbosity normal --settings ../../runsettings.xml
