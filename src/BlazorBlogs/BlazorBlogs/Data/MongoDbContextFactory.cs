@@ -26,7 +26,7 @@ public class MongoDbContextFactory : IMongoDbContextFactory
 	/// <value>
 	///   The client.
 	/// </value>
-	public MongoClient Client { get; }
+	private MongoClient Client { get; }
 
 	/// <summary>
 	///   Gets the database.
@@ -34,7 +34,7 @@ public class MongoDbContextFactory : IMongoDbContextFactory
 	/// <value>
 	///   The database.
 	/// </value>
-	public IMongoDatabase Database { get; }
+	private IMongoDatabase Database { get; }
 
 	/// <summary>
 	///   Gets the connection string.
